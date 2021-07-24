@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery';
 import Loader from './components/Loader';
-import Button from './components/Button';
+import Button from './components/Button/Button';
 import Modal from './components/Modal';
 import imagesApi from './services/images-serviceAPI'
+//import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 class App extends Component {
 state = {
@@ -14,6 +15,7 @@ state = {
   query: '',
   isLoading: false,
   error: null,
+  showModal: false,
 };
 
 componentDidUpdate(prevProps, prevState){
@@ -48,22 +50,25 @@ fetchImages = () => {
   
 };
 
+toggleModal = () => {
+  this.setState(({showModal}) => ({
+    showModal: !showModal,
+  }))
+};
+
 render() {
-  const {images,isLoading} = this.state;
+  const {images,isLoading,} = this.state;
 
   return (
   <>
     <Searchbar onSubmit = {this.onChangeQuery}></Searchbar>
-    <ImageGallery>
-
-    </ImageGallery>
+    <ImageGallery onClick = {this.toggleModal}
+      images = {images}></ImageGallery>
       {isLoading && <Loader/>}
       {images.length > 0 && !isLoading && (
-    <Button>
-
-    </Button>)}
-    <Modal>
-
+    <Button></Button>)}
+    <Modal onClose = {this.toggleModal}>
+    <img src = '' alt = "" />
     </Modal>
   </>
 
