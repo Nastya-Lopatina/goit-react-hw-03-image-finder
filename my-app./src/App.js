@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import Searchbar from './components/Searchbar';
-import ImageGallery from './components/ImageGallery';
-import Loader from './components/Loader';
+import Searchbar from './components/Searchbar/Searchbar';
+import ImageGallery from './components/ImageGallery/ImageGallery';
+import Loader from './components/Loader/Loader';
 import Button from './components/Button/Button';
-import Modal from './components/Modal';
+//import Modal from './components/Modal/Modal';
 import imagesApi from './services/images-serviceAPI'
 //import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
@@ -16,6 +16,8 @@ state = {
   isLoading: false,
   error: null,
   showModal: false,
+  largeImage: [],
+  largeImageId: null,
 };
 
 componentDidUpdate(prevProps, prevState){
@@ -56,8 +58,14 @@ toggleModal = () => {
   }))
 };
 
+findBigPic = () => {
+this.state.images.find(image => {
+ return image.id === this.state.largeImageId;
+})
+}
+
 render() {
-  const {images,isLoading,} = this.state;
+  const {images,isLoading} = this.state;
 
   return (
   <>
@@ -67,9 +75,7 @@ render() {
       {isLoading && <Loader/>}
       {images.length > 0 && !isLoading && (
     <Button></Button>)}
-    <Modal onClose = {this.toggleModal}>
-    <img src = '' alt = "" />
-    </Modal>
+     
   </>
 
   )
