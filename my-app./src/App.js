@@ -4,8 +4,9 @@ import Searchbar from './components/Searchbar/Searchbar';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import Loader from './components/Loader/Loader';
 import Button from './components/Button/Button';
-//import Modal from './components/Modal/Modal';
+import Modal from './components/Modal/Modal';
 import imagesApi from './services/images-serviceAPI'
+import style from './App.module.css'
 //import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 class App extends Component {
@@ -16,7 +17,7 @@ state = {
   isLoading: false,
   error: null,
   showModal: false,
-  largeImage: [],
+  largeImage: {},
   largeImageId: null,
 };
 
@@ -51,6 +52,13 @@ fetchImages = () => {
   .finally(() => this.setState({isLoading: false}));
   
 };
+  
+scrollToDown = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
+  };  
 
 toggleModal = () => {
   this.setState(({showModal}) => ({
@@ -58,25 +66,31 @@ toggleModal = () => {
   }))
 };
 
-findBigPic = () => {
-this.state.images.find(image => {
- return image.id === this.state.largeImageId;
-})
-}
+openBigPic = largeImage => {
+    this.setState({ largeImage });
+    this.toggleModal();
+  };
 
 render() {
-  const {images,isLoading} = this.state;
-
+  const {images,isLoading,showModal,largeImage} = this.state;
+  const shouldRenderLoadMoreButton = images.length > 0 && !isLoading;
   return (
-  <>
+  <div className = {style.App}>
     <Searchbar onSubmit = {this.onChangeQuery}></Searchbar>
-    <ImageGallery onClick = {this.toggleModal}
-      images = {images}></ImageGallery>
+      <ImageGallery
+        onClick={this.openBigPic}
+        images={images}>
+        
+      </ImageGallery>
+      
       {isLoading && <Loader/>}
-      {images.length > 0 && !isLoading && (
-    <Button></Button>)}
-     
-  </>
+      {shouldRenderLoadMoreButton && (<Button fetchImages = {this.scrollToDown}></Button>)}
+      {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <img src={largeImage.largeImageURL} alt={largeImage.tags} />
+          </Modal>
+        )}
+  </div>
 
   )
 };

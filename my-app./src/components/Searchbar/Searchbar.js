@@ -10,11 +10,13 @@ class Searchbar extends Component {
 
     handelSubmit = e => {
         e.preventDefault();
+         this.props.onSubmit(this.state.query);
+          this.setState({ query: '' });
  }
 
     render() {
         return(
-                <header className={style.Searchbar}>
+                <header className = {style.Searchbar}>
                 <form onSubmit= {this.handelSubmit} className={style.SearchForm}>
                     <button type="submit" className={style.SearchForm_button}>
                     <span className={style.SearchForm_button_label}>Search</span>

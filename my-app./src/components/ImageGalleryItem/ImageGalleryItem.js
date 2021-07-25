@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './ImageGalleryItem.module.css'
 
-const ImageGalleryItem  = ({src,alt,toggleModal}) => {
-    
+const ImageGalleryItem  = ({image,onClick}) => {
+  
     return(
-        <li  className = {style.ImageGalleryItem}>
-            <img
-                onClick={toggleModal}
-                src={src} 
-                alt={alt}
-                className={style.ImageGalleryItem_image} 
-            />
+        <li className={style.ImageGalleryItem}
+            onClick={() => {
+                onClick(image);
+           }}>
+        <img
+            
+            src={image.webformatURL}
+            alt={image.tags}
+            id = {image.id}
+            className={style.ImageGalleryItem_image} 
+          />
         </li>
 
     )

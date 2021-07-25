@@ -2,20 +2,20 @@ import React from 'react';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem'
 import style from './ImageGallery.module.css'
 
-const ImageGallery = ({ images }) => {
-
+const ImageGallery = ({images,onClick}) =>{
 return (
     <ul className={style.ImageGallery}>
-               {images.map(image => (
+       
+           {images.map(image => (
               <ImageGalleryItem 
-              src={image.webformatURL}
-              alt={image.tags}
+              onClick={onClick} 
               key={image.id} 
-              >
-            </ImageGalleryItem>  
+              image={image}>
+                
+              </ImageGalleryItem>  
             ))}
        
-</ul>
+   </ul>
 
 );
 };
