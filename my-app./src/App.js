@@ -46,7 +46,8 @@ fetchImages = () => {
         this.setState(state =>({
         images: [...state.images, ...images],
         pageNumber: state.pageNumber + 1,
-      }));
+        }));
+    this.scrollToDown();
   })
   .catch(error => this.setState({error}))
   .finally(() => this.setState({isLoading: false}));
@@ -84,7 +85,7 @@ render() {
       </ImageGallery>
       
       {isLoading && <Loader/>}
-      {shouldRenderLoadMoreButton && (<Button fetchImages = {this.scrollToDown}></Button>)}
+      {shouldRenderLoadMoreButton && (<Button onClick={this.fetchImages}></Button>)}
       {showModal && (
           <Modal onClose={this.toggleModal}>
             <img src={largeImage.largeImageURL} alt={largeImage.tags} />
